@@ -16,6 +16,9 @@ export interface ParkingSession {
   receiptNo?: string;   // the ? means "may be missing"
 }
 
+//session: ParkingSession means "This function expects 
+//an object that strictly matches the ParkingSession interface."
+
 export function describe(session: ParkingSession): string {
   if (session.status === 'paid') {
     return `Slot ${session.slotNumber} is paid. Receipt ${session.receiptNo ?? 'pending'}.`;
