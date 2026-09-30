@@ -1,34 +1,23 @@
-// A union of string literals: only these three values are allowed.
+// The shapes of the data in our app.
+// Nothing in this file runs. It's all for the checker (lesson 1).
+
+// Lesson 3: a union. A status is exactly one of these three.
 export type PaymentStatus = 'unpaid' | 'paid' | 'expired';
 
-// What the user types in.
+// Lesson 2: what the user types on the slot + PIN screen.
 export interface SlotRequest {
-  slotNumber: number;
-  pin: string; //string for the leading 0s like 0067 will not be 67
+  slotNumber: number; // a number, because we compare it (1 to 20)
+  pin: string;        // text, so "0042" keeps its zeros
 }
 
-// What the API should send back
+// Lesson 2: what we get back after looking up a slot.
 export interface ParkingSession {
   slotNumber: number;
-  enteredAt: string;    // ISO date string in UTC, e.g. "2026-09-30T01:15:00Z"
-  amountDue: number;    // in pesos
-  status: PaymentStatus;
-  receiptNo?: string;   // the ? means "may be missing"
+  enteredAt: string;     // a UTC date as text, e.g. "2026-09-30T01:15:00Z"
+  amountDue: number;     // pesos
+  status: PaymentStatus; // lesson 3: only the three allowed values
+  receiptNo?: string;    // optional: only exists after payment
 }
 
-//session: ParkingSession means "This function expects 
-//an object that strictly matches the ParkingSession interface."
-
-export function describe(session: ParkingSession): string {
-  if (session.status === 'paid') {
-    return `Slot ${session.slotNumber} is paid. Receipt ${session.receiptNo ?? 'pending'}.`;
-  }
-  return `Slot ${session.slotNumber} owes ₱${session.amountDue.toFixed(2)}.`;
-}
-
-const example: ParkingSession = {
-  slotNumber: 7,
-  enteredAt: '2026-09-30T01:15:00Z',
-  amountDue: 60,
-  status: 'unpaid', //ts case sensitive
-};
+// this function will take a aslotrequest and return nothing
+export type SubmitHandler = (req: SlotRequest) => void;

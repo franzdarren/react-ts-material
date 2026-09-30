@@ -1,27 +1,16 @@
-import type { ReactNode } from 'react';
-import { Box, Card, CardActionArea, CardContent, Chip, Typography } from '@mui/material';
-
+// Lesson 5: the props object's shape. Same idea as SlotRequest in lesson 2.
 interface SlotBadgeProps {
   slotNumber: number;
-  reserved?: boolean;          // optional
-  children?: ReactNode;        // anything React can render
-  onSelect?: (slotNumber: number) => void; // a callback prop
+  reserved?: boolean;
 }
 
-export function SlotBadge({ slotNumber, reserved = false, children, onSelect }: SlotBadgeProps) {
+// "SlotBadge takes one object that fits SlotBadgeProps.
+//  Pull slotNumber and reserved out of it. If reserved is missing, use false."
+export function SlotBadge({ slotNumber, reserved = false }: SlotBadgeProps) {
   return (
-    <Card variant="outlined" sx={{ mb: 1 }}>
-      <CardActionArea onClick={() => onSelect?.(slotNumber)}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              Slot {slotNumber}
-            </Typography>
-            {reserved && <Chip label="Reserved" size="small" color="warning" />}
-          </Box>
-          {children}
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <p>
+      Slot {slotNumber}
+      {reserved && ' (reserved)'}
+    </p>
   );
 }
